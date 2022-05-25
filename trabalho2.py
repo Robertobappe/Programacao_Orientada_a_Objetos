@@ -39,6 +39,7 @@ Implementação
 
 Coloque o seu código de implementação na célula abaixo:'''
 
+#Notamos que essa versão possuia um certo atraso no último teste
 import numpy as np
 
 class MovingStats:
@@ -67,6 +68,39 @@ class MovingStats:
         self.min = min(self.L)
         self.max = max(self.L)
         self.mean = np.mean(self.L)
+        
+        
+#versão otimizada
+class MovingStats:
+    def __init__(self):
+        self.size = 0
+        self.min = None
+        self.max = None
+        self.mean = None
+        self.sum = 0
+        
+    def current_size(self):
+        return self.size
+    
+    def current_min(self):
+        return self.min
+    
+    def current_max(self):
+        return self.max
+    
+    def current_mean(self):
+        return self.mean
+    
+    def insert(self, value):
+        self.size += 1
+        self.sum += value
+        self.mean = self.sum/self.size
+        if self.min is None or value < self.min:
+            self.min = value
+        
+        if self.max is None or value > self.max:
+            self.max = value        
+        
         
 
 '''Testes
@@ -110,26 +144,4 @@ for i in range(N):
     assert st.current_min() == min(values[:i+1]), 'Mínimo errado'
     assert st.current_max() == max(values[:i+1]), 'Máximo errado'
     assert st.current_mean() == sum(values[:i+1]) / (i + 1), 'Média errada'
-print('Tudo certo!')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
+print('Tudo certo!')   
